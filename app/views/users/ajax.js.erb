@@ -1,0 +1,8 @@
+<% if @likes.present? %>
+  $('#likes').append("<%= escape_javascript(render 'likes', object: @likes) %>")
+  $("#more_like").replaceWith("<%= escape_javascript(
+  link_to 'more', user_ajax_path(like_params: @n), :remote => true, :id => 'more_like'
+  ) %>");
+<% else %>
+  $("#more_like").css('display','none');
+<% end %>

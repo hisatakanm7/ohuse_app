@@ -1,0 +1,15 @@
+<nav class="breadcrumb">
+  <%= link_to "Manage", kannri_path, :class => "breadcrumb-item"  %>
+  <%= link_to 'Ohuse', kannri_ohuse_path, method: :get,
+                                                  :class => "breadcrumb-item" %>
+  <%= content_tag(:span, @creator.name, class: ["breadcrumb-item", "active"]) %>
+</nav>
+<%= form_for @creator, :url => ohuse_update_path(@creator) do |f| %>
+  <%= f.label :name %>
+  <%= f.text_field :name, class: 'form-control' %>
+  <%= f.label :description %>
+  <%= f.text_field :description, class: 'form-control' %>
+  <%= f.label :image %>
+  <%= f.file_field :image, class: 'form-control' %>
+  <%= f.submit "Save changes", class: "btn btn-primary" %>
+<% end %>

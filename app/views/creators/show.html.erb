@@ -1,0 +1,78 @@
+<% provide(:title, @creator.name) %>
+<nav class="breadcrumb">
+  <%= link_to "Ohuse", creators_path, class: 'breadcrumb-item' %>
+  <%= content_tag(:span, @creator.name, class: ["breadcrumb-item", "active"]) %>
+</nav>
+<div class="row">
+  <div class="col-xs-12 col-lg-4">
+    <% @creator.image.thumb.present? ?
+                      img = @creator.image.thumb.url : img = "noimage-.png"  %>
+    <%= image_tag img, :class => "img-fluid" %>
+  </div>
+  <div class="col-xs-12 col-lg-8">
+    <h1 class="word-wrap"><%= @creator.name %></h1>
+    <p class="word-wrap"><%= @creator.description %></p>
+    <div>
+      <% @creator.tag_list.each do |tag| %>
+        <span class="label label-primary"><%= tag %></span>
+      <% end %>
+    </div>
+  </div>
+</div>
+<div class="row margin-top">
+  <div class="col-xs-12 col-lg-4">
+    <div class="card">
+      <h6 class="card-header">created by</h6>
+      <div class="card-block">
+        <div class="media">
+          <%= image_tag @creator.user.image_url,
+                                          :class => "media-object media-left" %>
+          <div class="media-body">
+            <div><%= link_to @creator.user.nickname, user_path(@creator.user),
+                                                :class => "word-wrap" %> </div>
+            <div><%= @creator.created_at.strftime("%Y-%m-%d %H:%M") %> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-lg-8">
+    <% if @creator.likes.any? %>
+      <div class="card">
+        <h6 class="card-header">liked by</h6>
+        <div class="card-block">
+          <% @creator.likes.each do |l| %>
+            <%= link_to user_path(l.user) do%>
+              <%= image_tag l.user.image_url, :class => "liked-by-image" %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header clearfix">
+    <h6 class="float-xs-left">Reviews</h6>
+    <%= button_to 'Show reviews', creator_reviews_path(@creator), method: :get,
+                    class: "btn btn-secondary float-xs-right" if @reviews.any?%>
+    <button class="btn btn-secondary float-xs-right" data-toggle="modal"
+                                                    data-target="#write-review">
+        Write a Review
+    </button>
+  </div>
+  <% if @reviews.any? %>
+    <div class="card-block">
+      <% @reviews.each do |r| %>
+        <div>
+          <div class="float-xs-right">
+                          <%= r.created_at.strftime("%Y-%m-%d %H:%M:%S") %></div>
+          <div><%= r.user_name %></div>
+        </div>
+        <div class="word-wrap margin-top"><%= r.body %></div>
+        <hr>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+<%= render 'modal_review' %>

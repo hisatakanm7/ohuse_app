@@ -1,0 +1,29 @@
+<nav class="breadcrumb">
+  <%= link_to "Manage", kannri_path, :class => "breadcrumb-item"  %>
+  <div class="breadcrumb-item active">Users</div>
+</nav>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>name</th>
+      <th>icon</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |v| %>
+      <tr>
+        <td><%= v.id %></td>
+        <td class="word-wrap"><%= link_to v.nickname, user_path(v.id) %></td>
+        <td><%= image_tag v.image_url, :class => "img-fluid" %></td>
+        <td>
+          <%= link_to "delete", user_destroy_path(v.id), method: :get,
+                                                class: "btn btn-danger btn-sm",
+                              data: { confirm: '本当に削除しますか？'} if !v.admin%>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= paginate @users %>

@@ -1,0 +1,3 @@
+id = <%= @id %>;
+$("#"+id).html("<%= j(render partial: 'like',
+          locals: { creator: @creators_likes, likes: @likes, like: @like}) %>");

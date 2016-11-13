@@ -1,0 +1,29 @@
+<% @creators.each do |r| %>
+  <div class="card col-xs-6 col-lg-3">
+    <div class="card-block">
+      <%= content_tag(:h6, r.created_at.strftime("%Y-%m-%d %H:%M"),
+                                                      class: "card-subtitle") %>
+    </div>
+    <%= link_to creator_path(r.id) do%>
+        <% r.image.thumb.present? ?
+                              img = r.image.thumb.url : img = "noimage-.png" %>
+        <%= image_tag img, :class => "img-fluid" %>
+      <% end %>
+    <div class="card-block">
+      <div class="text-truncate">
+        <%= link_to r.name, creator_path(r.id) %>
+      </div>
+      <div class="form">
+        <%= image_tag "hart2.png", :class => "user-page-like-image" %>
+        <%= r.likes_count if r.likes_count.present? %>
+        <%= image_tag "hart1.png", :class => "user-page-like-image" %>
+        <%= r.reviews.count %>
+        <% if current_user?(@user) %>
+          <%= button_to 'Delete', {:controller => "creators",
+            :action => "destroy", :id => r.id}, method: :delete, class:
+            "btn btn-danger btn-sm", data: { confirm: '本当に削除しますか？'} %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

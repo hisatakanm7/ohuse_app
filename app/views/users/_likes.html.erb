@@ -1,0 +1,14 @@
+<% @likes.each do |l| %>
+  <%= link_to creator_path(l.creator.id) do%>
+    <% l.creator.image.thumb.present? ?
+                      img = l.creator.image.thumb.url : img = "noimage-.png"  %>
+    <%= image_tag img, :class => "img-fluid" %>
+  <% end %>
+  <div class="form">
+    <%= link_to l.creator.name + "にイイねしました",
+                            creator_path(l.creator.id), :class => "word-wrap" %>
+    <%= image_tag "hart2.png", :class => "user-page-like-image" %>
+    <%= l.creator.likes_count %>
+  </div>
+  <hr>
+<% end %>

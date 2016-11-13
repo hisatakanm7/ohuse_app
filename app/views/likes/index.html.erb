@@ -1,0 +1,32 @@
+<nav class="breadcrumb">
+  <%= link_to @user.nickname, user_path(@user), class: 'breadcrumb-item' %>
+  <%= content_tag(:span, "likes", class: ["breadcrumb-item", "active"]) %>
+</nav>
+<h3>お布施一覧</h3>
+<div class="row row-width">
+  <% @likes.each do |r| %>
+    <div class="card col-xs-6 col-lg-3">
+      <div class="card-block">
+        <%= content_tag(:h6, r.creator.created_at.strftime("%Y-%m-%d %H:%M"),
+                                                      class: "card-subtitle") %>
+      </div>
+      <%= link_to creator_path(r.creator.id) do%>
+        <% r.creator.image.thumb.present? ?
+                      img = r.creator.image.thumb.url : img = "noimage-.png"  %>
+        <%= image_tag img, :class => "img-fluid" %>
+      <% end %>
+      <div class="card-block">
+        <div class="text-truncate">
+          <%= link_to r.creator.name, creator_path(r.creator.id) %>
+        </div>
+        <div class="form">
+          <%= image_tag "hart2.png", :class => "user-page-like-image" %>
+          <%= r.creator.likes_count if r.creator.likes_count.present? %>
+          <%= image_tag "hart1.png", :class => "user-page-like-image" %>
+          <%= r.creator.reviews.count %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+<%= paginate @likes %>

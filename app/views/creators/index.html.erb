@@ -1,0 +1,25 @@
+<% provide(:title, "creators") %>
+  <div class="margin-bottom">
+    <%= form_tag("/creators", :class => "form-inline", :method => 'get') do %>
+      <div class="form-check">
+        <label class="form-check-label">
+          <input class="form-check-input" type="radio" name="exampleRadios"
+                                      id="exampleRadios1" value="1" checked>
+          キーワード
+        </label>
+      </div>
+      <div class="form-check">
+        <label class="form-check-label">
+          <input class="form-check-input" type="radio" name="exampleRadios"
+                                                id="exampleRadios2" value="2">
+          タグ
+        </label>
+      </div>
+      <%= text_field_tag(:keyword, params[:keyword],
+                                                {:class => 'form-control'}) %>
+      <%= submit_tag("Search", {:class => 'btn btn-primary',
+                                    :data => { disable_with: "送信中..." }}) %>
+    <% end %>
+  </div>
+<%= render 'creator' %>
+<%= paginate @creators %>

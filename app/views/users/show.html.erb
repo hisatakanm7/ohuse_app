@@ -1,0 +1,83 @@
+<% provide(:title, @user.nickname) %>
+<nav class="breadcrumb">
+  <%= content_tag(:span, @user.nickname, class: ["breadcrumb-item", "active"]) %>
+</nav>
+<div class="row">
+  <div class="col-lg-3 flex-lg-last">
+    <div class="card">
+      <div class="card-header">
+        <%= "ID:" + @user.id.to_s %>
+      </div>
+      <div class="card-block">
+        <div class="media">
+          <%= image_tag @user.image_url, :class => "media-object media-left" %>
+          <div class="media-body">
+            <%= content_tag(:div, @user.nickname+ "さん", class: "word-wrap") %>
+            <% if current_user?(@user) %>
+              <button class="btn btn-secondary btn-sm" data-toggle="modal"
+                                                        data-target="#editname">
+                アカウント設定
+              </button>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% if @likes.any? %>
+      <div class="card">
+        <div class="card-header">
+          いいねログ
+          <%= button_to 'Show details', user_likes_path(@user), method: :get,
+                                            class: "btn btn-secondary btn-sm"%>
+        </div>
+        <div class="card-block">
+          <div id="likes">
+            <%= render 'likes' %>
+          </div>
+          <%= link_to 'more', user_ajax_path(like_params: @ajaxlike),
+                                          :remote => true, :id => "more_like" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-lg-9 flex-lg-first">
+    <div class="card">
+      <div class="card-header">
+        <h6 class="float-xs-left">作ったお布施</h6>
+        <%= content_tag(:div, @creators.count.to_s + " ohuse",
+                                                    class: "float-xs-right") %>
+      </div>
+      <% if @creators.any? %>
+        <div class="card-block">
+          <div class="row">
+            <div class="tool-bar-content">
+              並び替え
+            </div>
+            <div class="tool-bar-content">
+              <%= link_to '▼新しい順', user_order_created_at_path(@user),
+                                                              :remote => true %>
+            </div>
+            <div class="tool-bar-content">
+              <%= link_to '▼古い順', user_reorder_created_at_path(@user),
+                                                              :remote => true %>
+            </div>
+            <div class="tool-bar-content">
+              <%= link_to '▼いいね多い順', user_order_like_path(@user),
+                                                              :remote => true %>
+            </div>
+            <div class="tool-bar-content">
+              <%= link_to '▼いいね少ない順', user_reorder_like_path(@user),
+                                                              :remote => true %>
+            </div>
+          </div>
+          <div class="row" id="creators">
+            <%= render 'creators' %>
+          </div>
+          <%= link_to 'more', user_reorder_like_more_path({:user_id => @user.id,
+            :number => @card_number}), :remote => true, :id => "more_creator" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<%= render 'modal_show' %>

@@ -1,0 +1,17 @@
+<nav class="breadcrumb">
+  <%= link_to "Ohuse", creators_path, class: 'breadcrumb-item' %>
+  <%= link_to @creator.name, creator_path(@creator), class: 'breadcrumb-item' %>
+  <%= content_tag(:span, "reviews", class: ["breadcrumb-item", "active"]) %>
+</nav>
+<h3>レビュー一覧</h3>
+<div class="container">
+  <% @reviews.each do |r| %>
+  <%= content_tag(:div, r.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+                                                    class: "float-xs-right") %>
+    <div class="float-xs-right"><%= r.created_at.strftime("%Y-%m-%d %H:%M:%S") %></div>
+    <div><%= r.user_name %></div>
+    <div class="word-wrap margin-top"><%= r.body %></div>
+    <hr>
+  <% end %>
+  <%= paginate @reviews %>
+</div>

@@ -1,0 +1,36 @@
+<div class="modal fade" id="createTicket" tabindex="-1" role="dialog"
+                              aria-labelledby="dialogHeader" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <% creator = Creator.new %>
+      <%= form_for creator, :url => creators_path(creator),
+                                            html: { multipart: true } do |f| %>
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"
+                                              aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="dialogHeader">Let's create Ohuse!!  </h4>
+        </div>
+        <div class="modal-body">
+          <%= f.label :name %>
+          <%= f.text_field :name, class: 'form-control' %>
+          <%= f.label :description %>
+          <%= f.text_area :description, class: 'form-control' %>
+          <% if logged_in? && current_user.admin %>
+            <%= f.label :image %>
+            <%= f.file_field :image, class: 'form-control' %>
+          <% end %>
+          <div class="p-tag">
+            <%= f.label :tag %>
+            ※Enterで区切ってください！
+          </div>
+          <%= text_field_tag 'creator[tag_list]', creator.tag_list.join(','),
+                                                    "data-role" => "tagsinput" %>
+        </div>
+        <div class="modal-footer">
+          <%= f.submit "Ohuse sending", class: "btn btn-primary",
+                                            data: { disable_with: "送信中..." } %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

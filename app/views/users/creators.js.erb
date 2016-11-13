@@ -1,0 +1,25 @@
+<% if @creators.present? %>
+  <% if @reorder_created_at.present? %>
+    $('#creators').append("<%= escape_javascript(render 'creators', object: @creators) %>")
+    $("#more_creator").replaceWith("<%= escape_javascript(
+      link_to 'more', user_creators_path(reorder_created_at_params: @reorder_created_at), :remote => true, :id => 'more_creator'
+    ) %>");
+  <% elsif @order_created_at.present? %>
+    $('#creators').append("<%= escape_javascript(render 'creators', object: @creators) %>")
+    $("#more_creator").replaceWith("<%= escape_javascript(
+      link_to 'more', user_creators_path(order_created_at_params: @order_created_at), :remote => true, :id => 'more_creator'
+    ) %>");
+  <% elsif @reorder_like.present? %>
+    $('#creators').append("<%= escape_javascript(render 'creators', object: @creators) %>")
+    $("#more_creator").replaceWith("<%= escape_javascript(
+      link_to 'more', user_creators_path(reorder_like_params: @reorder_like), :remote => true, :id => 'more_creator'
+    ) %>");
+  <% elsif @order_like.present? %>
+    $('#creators').append("<%= escape_javascript(render 'creators', object: @creators) %>")
+    $("#more_creator").replaceWith("<%= escape_javascript(
+      link_to 'more', user_creators_path(order_like_params: @order_like), :remote => true, :id => 'more_creator'
+    ) %>");
+  <% end %>
+<% else %>
+  $("#more_creator").css('display','none');
+<% end %>

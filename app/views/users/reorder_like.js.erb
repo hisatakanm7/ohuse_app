@@ -1,0 +1,8 @@
+<% if @creators.present? %>
+  $('#creators').replaceWith("<div class='row' id='creators'><%= escape_javascript(render 'creators', object: [@creators, @card_number]) %></div>")
+  $("#more_creator").replaceWith("<%= escape_javascript(
+    link_to 'more', user_reorder_like_more_path({:user_id => @user.id, :number => @card_number}), :remote => true, :id => 'more_creator'
+  ) %>");
+<% else %>
+  $("#more_creator").css('display','none');
+<% end %>

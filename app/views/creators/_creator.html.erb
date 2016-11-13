@@ -1,0 +1,46 @@
+<% @creators.each do |v| %>
+  <div class="row">
+    <div class="col-xs-12 col-lg-4">
+      <%= link_to creator_path(v.id) do%>
+        <% v.image.thumb.present? ?
+                              img = v.image.thumb.url : img = "noimage-.png" %>
+          <%= image_tag img, :class => "img-fluid" %>
+      <% end %>
+    </div>
+    <div class="col-xs-12 col-lg-8">
+      <h1 class="text-truncate"><%= v.name %></h1>
+      <p class="text-truncate"><%= v.description %></p>
+      <%= content_tag(:p, v.reviews.first.body,
+                     class: "text-truncate reviewbody") if v.reviews.present? %>
+      <div class="row">
+        <div class="col-xs-12 col-lg-8">
+          <% v.tag_list.each do |tag| %>
+            <span class="label label-primary"><%= tag %></span>
+          <% end %>
+        </div>
+        <div class="col-xs-12 col-lg-4">
+          <% if v.like_user(current_user.id) %>
+            <div class="float-xs-right">
+              <%= image_tag "hart2.png", :class => "img-like" %>
+              <span>
+              <%= v.likes_count %>
+              </span>
+            </div>
+          <% else %>
+            <div id=<%= v.id %> class="noborder float-xs-right">
+              <%= button_to creator_likes_path(v.id), remote: true do %>
+                <%= image_tag "hart1.png", :class => "img-like" %>
+              <% end %>
+              <span>
+                <%= v.likes_count %>
+              </span>
+            </div>
+          <% end %>
+          <%= button_to 'Show details', creator_path(v.id), method: :get,
+                                              class: "btn btn-primary float-xs-bottom"%>
+         </div>
+       </div>
+     </div>
+  </div>
+  <hr>
+<% end %>

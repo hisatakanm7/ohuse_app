@@ -1,0 +1,21 @@
+<div class="modal fade" id="editname" tabindex="-1" role="dialog"
+                              aria-labelledby="dialogHeader" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <%= form_for(@user) do |f| %>
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"
+                                              aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="dialogHeader">Edit name</h4>
+        </div>
+        <div class="modal-body">
+            <%= f.label :nickname %>
+            <%= f.text_field :nickname, class: 'form-control' %>
+        </div>
+        <div class="modal-footer">
+            <%= f.submit "Save changes", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
